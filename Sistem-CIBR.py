@@ -43,7 +43,7 @@ def build_feature_database():
     return feature_database
 
 # Fungsi untuk menemukan gambar serupa
-def find_similar_images(query_features, feature_database, top_n=5):
+def find_similar_images(query_features, feature_database, top_n=6):
     similarities = {}
     for img_name, features in feature_database.items():
         similarity = cosine_similarity(query_features.reshape(1, -1), features.reshape(1, -1))[0][0]
