@@ -78,13 +78,24 @@ if uploaded_file is not None:
         # Tampilkan gambar query
         st.image(file_path, caption="Gambar Query", use_column_width=True)
 
-        # Tampilkan gambar serupa
+        # Tentukan jumlah kolom yang diinginkan
         st.subheader("Gambar Serupa:")
-        for image_name, similarity in similar_images:
-            image_path = os.path.join(DATASET_FOLDER, image_name)
-            st.image(image_path, caption=f"{image_name} - Kesamaan: {similarity:.4f}", use_column_width=True)
+        num_columns = 3
+
+        # Buat baris-baris untuk grid gambar
+        for i in range(0, len(similar_images), num_columns):
+            cols = st.columns(num_columns)
+            for j in range(num_columns):
+                if i + j < len(similar_images):
+                    image_name, similarity = similar_images[i + j]
+                    image_path = os.path.join(DATASET_FOLDER, image_name)
+                    with cols[j]:
+                        st.image(image_path, caption=f"{image_name}\nKesamaan: {similarity:.4f}", use_column_width=True)
+
     except Exception as e:
         st.error(f"Terjadi kesalahan: {e}")
+else:
+    st.info("Silakan unggah gambar untuk memulai pencarian.")
 
 # Menambahkan footer
 st.markdown("---")  # Garis horizontal
